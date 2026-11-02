@@ -13,7 +13,7 @@ S='.vk{line-height:1.4;font-size:13px;color:var(--text-primary)}.vk *{box-sizing
 '.vh{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:8px 12px;align-items:center}.vh .vr{height:16px}.vh b{text-align:right;white-space:nowrap;font-variant-numeric:tabular-nums}'+
 '.vi>div{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:12px;align-items:baseline;padding:6px 0;border-bottom:0.5px solid var(--border)}.vi>div>span{white-space:nowrap;color:var(--text-secondary);font-variant-numeric:tabular-nums}.vi>div>b{min-width:0}'+
 '.vi.f>div{grid-template-columns:auto minmax(0,1fr);gap:8px;color:var(--text-secondary)}.vi.f b{color:var(--text-primary)}'+
-'.vj{display:grid;gap:8px}.vj>div{background:var(--surface-1);border-radius:var(--radius,8px);padding:8px 10px}.vj>div>b{display:flex;gap:6px;align-items:center}.vj>div>span{font-size:12px;color:var(--text-secondary)}'+
+'.vj{display:grid;gap:8px}.vj>div{background:var(--surface-1);border-radius:var(--radius,8px);padding:8px 10px}.vj>div>b{display:flex;gap:6px;align-items:baseline}.vj>div>span{font-size:12px;color:var(--text-secondary)}'+
 '.vk .vn{display:inline-flex;align-items:center;justify-content:center;width:18px;height:18px;border-radius:50%;background:var(--text-primary);color:var(--surface-2,#fff);font-size:11px;font-weight:500;flex:none}'+
 '.vo{font-size:12px;color:var(--text-secondary);background:var(--surface-1);border-radius:var(--radius,8px);padding:7px 11px}.vo b{color:var(--text-primary)}'+
 '.vx{display:flex;flex-wrap:wrap;gap:4px 16px;font-size:12px;color:var(--text-secondary);margin:4px 0 0}.vx i{display:inline-block;width:10px;height:10px;border-radius:2px;margin-right:5px;vertical-align:-1px}'+
@@ -21,7 +21,7 @@ S='.vk{line-height:1.4;font-size:13px;color:var(--text-primary)}.vk *{box-sizing
 '.vk svg .vz{font-size:11px;font-weight:500;fill:var(--text-secondary)}.vk svg circle.d{transition:opacity .5s}';
 function nb(s){return String(s==null?'':s).replace(/(\d) (?=\d{3}(?!\d))/g,'$1 ').replace(/(\d) (%|€)/g,'$1 $2')}
 function e(s){return nb(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;')}
-function h(s){return e(s).replace(/(\S+) -(\S+)/g,'<span style="white-space:nowrap">$1 -$2</span>').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
+function h(s){return e(s).replace(/(\S) -(?=\S)/g,'$1\u00a0-\u2060').replace(/\*\*(.+?)\*\*/g,'<b>$1</b>')}
 function fx(v,d){return v.toLocaleString(L,{minimumFractionDigits:d,maximumFractionDigits:d})}
 function lab(d){return d.l||d.lr?'<div class="vl"><span>'+h(d.l||'')+'</span>'+(d.lr?'<b>'+h(d.lr)+'</b>':'')+'</div>':''}
 function leg(a){return a?'<div class="vx">'+a.map(function(q){if(!q[1])return'<span>'+h(q[0])+'</span>';var c=C[q[1]],s=q[2]=='c'?'background:'+c+';border-radius:50%':q[2]=='l'||q[2]=='d'?'height:0;width:16px;border-radius:0;border-top:2px '+(q[2]=='d'?'dashed ':'solid ')+c:'background:'+c;return'<span><i style="'+s+'"></i>'+h(q[0])+'</span>'}).join('')+'</div>':''}
@@ -38,9 +38,9 @@ d.r.forEach(function(r,i){s+='<tr class="'+(x.indexOf(i)>-1?'h':'')+(d.T&&i==d.r
 el.innerHTML=lab(d)+s+'</table>'+leg(d.lg);grow(el)};
 V.bars=function(el,d){el.innerHTML=lab(d)+'<div class="vh">'+d.r.map(function(r){return'<span>'+h(r[0])+'</span>'+bar(r[1],r[2],d.m)+'<b>'+h(r[3])+'</b>'}).join('')+'</div>'+leg(d.lg);grow(el)};
 V.list=function(el,d){var k=d.k||1,s=d.r.map(function(r,i){var n=d.n?'<span class="vn">'+(i+1)+'</span>':'';
-if(k>1)return'<div><b>'+n+h(r[0])+'</b><span>'+h(r[1])+'</span></div>';
+if(k>1)return'<div><b>'+n+'<span>'+h(r[0])+'</span></b><span>'+h(r[1])+'</span></div>';
 if(r.length<2)return'<div>'+n+'<span>'+h(r[0])+'</span></div>';
-return'<div><b style="display:flex;gap:8px;align-items:center">'+n+h(r[0])+'</b><span'+(r[2]?' style="color:'+C[r[2]]+'"':'')+'>'+h(r[1])+'</span></div>'}).join('');
+return'<div><b style="display:flex;gap:8px;align-items:baseline">'+n+'<span>'+h(r[0])+'</span></b><span'+(r[2]?' style="color:'+C[r[2]]+'"':'')+'>'+h(r[1])+'</span></div>'}).join('');
 el.innerHTML=lab(d)+(k>1?'<div class="vj" style="grid-template-columns:repeat('+k+',minmax(0,1fr))">':'<div class="vi'+(d.r[0].length<2?' f':'')+'">')+s+'</div>'};
 V.note=function(el,d){el.innerHTML='<div class="vo">'+h(d.t||d)+'</div>'};
 function frame(el,d){var W=Math.max(240,el.clientWidth||600),H=d.h||170,X=d.x,Y=d.y,ml=d.ml||40,mr=d.mr||12,mt=d.mt||12,mb=d.xl?34:22,
@@ -49,6 +49,7 @@ x=function(v){return ml+(v-X[0])/(X[1]-X[0])*(W-ml-mr)},y=function(v){return H-m
 g+='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+(H-mb)+'" y2="'+(H-mb)+'" stroke="var(--border-strong)"/>';
 (X[2]||[]).forEach(function(t){var a=t[0]<=X[0]?'start':t[0]>=X[1]?'end':'middle';g+='<text x="'+x(t[0])+'" y="'+(H-mb+15)+'" text-anchor="'+a+'">'+e(t[1])+'</text>'});
 if(d.xl)g+='<text x="'+(ml+(W-ml-mr)/2)+'" y="'+(H-3)+'" text-anchor="middle" class="vz">'+e(d.xl)+'</text>';
+if(d.yl)g+='<text x="'+(ml-6)+'" y="'+(mt-2)+'" text-anchor="end" class="vz">'+e(d.yl)+'</text>';
 return{W:W,H:H,x:x,y:y,g:g,t:mt,b:H-mb,l:ml,r:W-mr}}
 function dash(F,v,c){return'<line x1="'+F.l+'" x2="'+F.r+'" y1="'+F.y(v)+'" y2="'+F.y(v)+'" stroke="'+(C[c]||C.m)+'" stroke-dasharray="4 3"/>'}
 function vdash(F,v,c){return'<line x1="'+F.x(v)+'" x2="'+F.x(v)+'" y1="'+F.t+'" y2="'+F.b+'" stroke="'+(C[c]||C.m)+'" stroke-dasharray="4 3"/>'}
